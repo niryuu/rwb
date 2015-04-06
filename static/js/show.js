@@ -1,30 +1,28 @@
 'use strict';
 var pdf = null;
 var loaded = 1;
-var loadPage = function(n) {
-  pdf.getPage(n).then(function(page) {
-    var scale = 1.5;
-    var viewport = page.getViewport(scale);
+var last = 0;
+var loadPage = function(page) {
+  var scale = 1.0;
+  var viewport = page.getViewport($('#pdfview').width()/page.getViewport(1.0).width);
 
-    var canvas = document.getElementById('pdfcanvas');
-    var context = canvas.getContext('2d');
-    canvas.height = viewport.height;
-    canvas.width = viewport.width;
+  var canvas = document.createElement('canvas');
+  var context = canvas.getContext('2d');
+  canvas.height = viewport.height;
+  canvas.width = viewport.width;
 
-    var renderContext = {
-      canvasContext: context,
-      viewport: viewport
-    };
-    page.render(renderContext);
-  });
+  var renderContext = {
+    canvasContext: context,
+    viewport: viewport
+  };
+  page.render(renderContext);
+  document.getElementById('pdfview').appendChild(canvas);
+  if(loaded < last) {
+    pdf.getPage(loaded++).then(loadPage);
+  }
 };
 PDFJS.getDocument('/files/test.pdf').then(function(_pdf) {
   pdf = _pdf;
-  loadPage(1);
-});
-$('#pdfview').on('scroll', function() {
-  if(($('#pdfcanvas').height() - $('#pdfview').height() - $('#pdfview').scrollTop()) <= 0) {
-    loadPage(loaded++);
-    $('#pdfview').animate({scrollTop: 0});
-  };
+  last = pdf.numPages;
+  pdf.getPage(loaded).then(loadPage);
 });

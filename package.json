@@ -9,6 +9,7 @@
   "dependencies": {
     "jade": "^1.9.2",
     "koa": "^0.19.0",
+    "koa-pg": "^0.24.0",
     "koa-router": "^4.3.2",
     "koa-static": "^1.4.9",
     "koa-views": "^3.0.0"
