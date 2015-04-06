@@ -22,8 +22,10 @@ var loadPage = function(page) {
     pdf.getPage(++loaded).then(loadPage);
   }
 };
-PDFJS.getDocument('/files/test.pdf').then(function(_pdf) {
-  pdf = _pdf;
-  last = pdf.numPages;
-  pdf.getPage(loaded).then(loadPage);
-});
+var loadPDF = function(filename) {
+  PDFJS.getDocument(filename).then(function(_pdf) {
+    pdf = _pdf;
+    last = pdf.numPages;
+    pdf.getPage(loaded).then(loadPage);
+  });
+};

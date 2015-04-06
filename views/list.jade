@@ -1,0 +1,6 @@
+extends layout
+block container
+	ul
+		each file in files
+			li
+				a(href="/show/#{file}")= file
