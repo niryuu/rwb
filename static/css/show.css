@@ -1,0 +1,16 @@
+#pdfview, #memo {
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+#pdfview {
+  top: 0;
+  height: 50%;
+  overflow:scroll;
+}
+
+#memo {
+  bottom: 0;
+  height: 50%;
+}
