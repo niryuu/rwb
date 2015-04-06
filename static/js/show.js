@@ -18,7 +18,7 @@ var loadPage = function(page) {
   page.render(renderContext);
   document.getElementById('pdfview').appendChild(canvas);
   if(loaded < last) {
-    pdf.getPage(loaded++).then(loadPage);
+    pdf.getPage(++loaded).then(loadPage);
   }
 };
 PDFJS.getDocument('/files/test.pdf').then(function(_pdf) {
